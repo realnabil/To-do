@@ -1,24 +1,80 @@
-let text = document.querySelector(`[type="text"]`);
-let add = document.querySelector(`[type="button"]`);
+let text = document.querySelector(".text-add");
+let add = document.querySelector(".btn-add");
 let list = document.querySelector(".tasks");
-
+let pushDone = [];
 
 //JSON.stringify() >> بتحول البيانات ل سترينج 
 // JSON.parse()  >> عكس الي فوق بتحول من سترينج لـ مصفوفه عاديه 
 
 
+    // drag and drop 
+    const dragArea = document.querySelector(".tasks");
+    new Sortable(dragArea, {
+        animation:500
+    });
+
 // create array 
 let arrayOfTasks = [];
 
-// Check if theres tasks in local storage 
+// Counters
+let conutTasks = document.querySelector(".countTasks");
+let countDone = document.querySelector(".doneTasks");
+let clearAll = document.querySelector(".clearBtn");
+
+// Check if there tasks in local storage 
 if (localStorage.getItem("tasks")) {
     arrayOfTasks = JSON.parse(localStorage.getItem("tasks"));
 }
 getDataFromLocalStorage();
 
+// Start Popup
+let model = document.querySelector(".model");
+let delPop = document.querySelector(".del");
+let popText = document.querySelector(".pop-text");
+let popButton = document.querySelector(".pop-btn");
+let welcomeText = document.querySelector(".welcome");
+let popTextStyle = document.querySelector(".toAppend");
+
+function modelShow() {
+    model.style.opacity = "1";
+    popText.focus();
+}
+delPop.onclick = function() {
+    model.style.display = "none";
+    // model.style.opacity = "0";
+}
+popButton.onclick = function() {
+    if (popText.value != "") {
+        console.log(popText.value)
+        welcomeMessage(popText.value);
+        model.style.display = "none";
+    }
+    else {
+        model.style.display = "none";
+    }
+}
+function welcomeMessage(popText){
+    popTextStyle.textContent = popText;
+    setPopToLocal(popText);
+}
+function setPopToLocal(popText){
+    window.localStorage.setItem("pop",popText);
+}
+if (window.localStorage.getItem("pop")){
+    popTextStyle.textContent = window.localStorage.getItem("pop");
+    model.style.display = "none";
+}
+setTimeout(modelShow,2000);
+
+// setTimeout(function() {
+//     del.onclick = function(){
+//     model.style.display = "none";
+//     }
+// },2100);
+// End Popup
 
 add.addEventListener("click",()=>{
-    if ((text.value !== "" )&&(text.value.length > 3)){ // بتقولو لو التكست فاضي او اكبر من 3 كلمات نفذ 
+    if (text.value !== "" ){ // بتقولو لو التكست فاضي نفذ 
         
         // To add date 
         let now = new Date();
@@ -33,7 +89,7 @@ add.addEventListener("click",()=>{
         // add text and date to function >> addTaskToArray
         addTaskToArray(text.value,textDate); 
         text.value = ""; // to empty input filed
-        text.focus(); 
+        text.focus();
     }
 })
 
@@ -57,11 +113,9 @@ function addTaskToArray(taskText,textDate) {
 
 
 
-
 function addElementsToPageFrom(arrayOfTasks) {
     // embty tasks div 
     list.innerHTML = ""; // بنستخدمها لو العنصر هيتكرر اكتر من مره  
-    
     // Looping on array of tasks  
     arrayOfTasks.forEach((ele)=>{
 
@@ -87,20 +141,37 @@ function addElementsToPageFrom(arrayOfTasks) {
         // create delete btn 
         let del = document.createElement("span");
         del.className = "newBtn";
-        del.textContent = "Delete";
-        // create container for delete date 
+        del.innerHTML = "Delete";
+
+         // create checkbox
+        let checkBox = document.createElement("span");
+        checkBox.type = "button";
+        checkBox.innerHTML = "Done";
+        checkBox.className = "checkList";
+
+        let containerForAll = document.createElement("div");
+        containerForAll.className = "forAll";
+
+        // create container for delete and check 
         let dateDelete = document.createElement("div")
         dateDelete.className = "dateDelete";
-        // append delete btn & date  to container
-        dateDelete.appendChild(date);
+
+        // append delete btn & checkbox 
+        dateDelete.appendChild(checkBox);
         dateDelete.appendChild(del);
+        
+
+        //append all componants
+        containerForAll.appendChild(dateDelete)
+        containerForAll.append(date)
 
         // append container to main div
-        div.appendChild(dateDelete);
-
+        div.appendChild(containerForAll);
         // append main div to list (page)
-        list.appendChild(div)
+        list.appendChild(div);        
+        
     })
+    conutTasks.textContent = arrayOfTasks.length;
     
 }
 
@@ -113,10 +184,9 @@ function addDataToLocalStorage(arrayOfTasks) {
 // get data from localStorage and add data from localStorage to page 
 function getDataFromLocalStorage() {
     let data = localStorage.getItem("tasks");
-
     if (data){
         let tasks = JSON.parse(data);
-        addElementsToPageFrom(tasks);
+        addElementsToPageFrom(tasks);        
     }
 }
 
@@ -133,31 +203,45 @@ list.addEventListener("click",(e)=>{
 
     if(e.target.classList.contains("newBtn")){
         // delete element form localStorge 
-        deleteFromLocal(e.target.parentElement.parentElement.getAttribute("data-id"));
+        deleteFromLocal(e.target.parentElement.parentElement.parentElement.getAttribute("data-id"));
         // Delete element from page 
-        e.target.parentElement.parentElement.remove();
+        e.target.parentElement.parentElement.parentElement.remove();
     }
-    // acsses to main div (task) 
-    if (e.target.classList.contains("task")){
-        // toggle with complated
-        toggleStatusTaskWith(e.target.getAttribute("data-id"));
-        // toggle with done 
-        e.target.classList.toggle("done");
-        e.target.children[0].classList.toggle("text-dec")
-    }
+
     
+    // acsses checkbox
+    if (e.target.classList.contains("checkList")){
+            // toggle with complated
+        toggleStatusTaskWith(e.target.parentElement.parentElement.parentElement.getAttribute("data-id"));
+            // toggle with done 
+        e.target.parentElement.parentElement.parentElement.classList.toggle("done");
+            // toggle with text-dec 
+        e.target.parentElement.parentElement.parentElement.children[0].classList.toggle("text-dec");
+    }
+    conutTasks.textContent = arrayOfTasks.length;
 })
 
+// delete All
+clearAll.onclick = function(){
+    list.innerHTML = "";
+    arrayOfTasks = [];
+    localStorage.removeItem("tasks");
+    conutTasks.textContent = arrayOfTasks.length;
+    countDone.textContent = "0";
 
+}
 function toggleStatusTaskWith(taskId) {
     for (let i =0; i< arrayOfTasks.length; i++) {
         if (arrayOfTasks[i].id == taskId){
             arrayOfTasks[i].completed == false ? (arrayOfTasks[i].completed = true) : (arrayOfTasks[i].completed = false);
-            console.log(`${arrayOfTasks[i].id} ===  ${taskId}}`)
+
+            console.log(`${arrayOfTasks[i].id} ===  ${taskId}}`);
         }
-    }
+    }       
     addDataToLocalStorage(arrayOfTasks);
 };
+
+
 
 
 

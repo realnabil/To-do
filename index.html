@@ -5,24 +5,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="image/icon-1.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
     <title>To Do v.1</title>
 </head>
 <body>
 
     <div class="container">
+        <!-- Popup -->
+        <div class="model">
+            <div class="del"><i class="fa-solid fa-x"></i></div>
+            <h3>أهلا وسهلا </h3>
+            <div>
+                <img src="image/man.png" alt="">
+            </div>
+            <span>للـحصول على تجربة مستخدم أفضل يرجى كتابة إسمك بالأسفل</span>
+            <form action="">
+                <input class="pop-text" type="text">
+                <input class="pop-btn" type="button" value="موافق">
+            </form>
+        </div>
+        <!-- End popup -->
         <div class="islam">سبحان الله وبحمده ، سبحان الله العظيم </div>
+        <div class="welcome">أهلا بيك <span class="toAppend"></span>😍 بنتمنالك تجربة ممتعة </div>
         <h3 class="main-head">To Do Tasks</h3>
+        <!-- Start form tasks -->
         <form class="main">
-            <input type="text">
-            <input type="button" value="Add Task">
+            <input class="text-add" type="text">
+            <input class="btn-add" type="button" value="Add Task">
         </form>
         <span class="title">Tasks will appear here</span>
         <div class="tasks">
+
         </div>
+        <!-- Start form tasks -->
+        <!-- Start counter -->
+        <div class="counters">
+            <div>عدد التاسكات : <span class="countTasks">0</span></div>
+            <div> عدد التاسكات المنتهية :<span class="doneTasks">0</span></div>
+        </div>
+        <!-- End counter -->
+        <button class="clearBtn">إمسحلي الكل </button>
+
+
+
+
+
+
+        <!-- Start features -->
     <div class="feat">
         <h2 class="head">مميزات الموقع</h2>
         <div class="ul-container">
@@ -61,6 +95,7 @@
         <span><a class="source" href="https://github.com/realnabil/To-do" target="_blank" rel="noopener noreferrer">Source Code</a></span>
     </div>
 </div>
+        <!-- End features -->
     <script src="main.js"></script>
 </body>
 </html>

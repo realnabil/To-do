@@ -2,7 +2,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
   font-family: 'Tajawal', sans-serif;
   background-color: #afc9dc;
 }
@@ -15,7 +15,6 @@ a {
   color: inherit;
 }
 
-
 .container {
   width: 700px;
   margin: 50px auto 30px;
@@ -25,13 +24,13 @@ a {
 @media (max-width:767px) {
   .container {
     width: 400px;
-    margin: 50px auto;
+    margin: 50px auto ;
+    padding: 0 10px 0 5px;
   }
 }
 
 .main-head {
   text-align: center;
-  margin-top: 50px;
   font-size: 30px;
   color: #00539cff;
   position: relative;
@@ -68,8 +67,7 @@ form {
   font-weight: bold;
 }
 
-form input,
-.newBtn {
+form input {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #00539cff;
@@ -82,16 +80,14 @@ form input[type="text"] {
 form input[type="text"]:focus {
   outline: none;
 }
-form input[type="button"],
-.newBtn {
+form input[type="button"] {
   background-color: #eea47fff;
   color: #00539cff;
   font-weight: bold;
   cursor: pointer;
   transition: 0.3s;
 }
-form input[type="button"]:hover,
-.newBtn:hover {
+form input[type="button"]:hover {
   background-color:#00539cff ;
   color: #eea47fff;
 }
@@ -119,6 +115,7 @@ form input[type="button"]:hover,
   align-items: center;
   transition: 0.3s;
   font-size: 18px;
+  overflow: hidden;
 }
 
 @media (max-width:767px) {
@@ -130,12 +127,6 @@ form input[type="button"]:hover,
 
 .task:not(:last-child){
   margin-bottom: 15px;
-}
-
-.newBtn {
-  padding:5px;
-  font-size: 13px;
-  
 }
 
 .done {
@@ -153,6 +144,7 @@ form input[type="button"]:hover,
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 15px;
 }
 
 @media (max-width:767px) {
@@ -160,10 +152,31 @@ form input[type="button"]:hover,
     font-size: 13px;
   }
 }
-/* Start JavaScript Component */
+
+
+.checkList {
+  background-color: #58f058;
+  color: black;
+}
+
+.newBtn {
+  background-color:red;
+  color: white;
+}
+
+.checkList,
+.newBtn {
+  border-radius: 6px;
+  border: 1px solid #00539cff;
+  padding: 5px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 
 
+/* Start Featuers */
 .head {
   position: relative;
   margin-bottom: 30px;
@@ -247,6 +260,111 @@ ul:nth-child(2) {
   padding: 10px;
   border-radius: 10px;
 }
+/* End Featuers */
 
 
 
+/* Start Popup */
+.model {
+  width: 450px;
+  border: 1px solid black;
+  border-radius: 6px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  padding: 10px;
+  transition: 0.5s;
+  background-color: #58f058;
+  z-index: 2;
+  opacity: 0;
+}
+@media (max-width:767px) {
+  .model {
+    width: 300px;
+  }
+}
+.model .del {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: #00539cff;
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  right: 15px;
+  top: 10px;
+  direction: rtl;
+}
+.model img {
+  width: 64px;
+}
+.model form {
+  padding: 0;
+  margin:  20px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #58f058;
+  align-items: center;
+  justify-content: center;
+}
+.model form input[type="text"] {
+  width: 320px;
+  padding: 10px;
+  margin-right: 0;
+}
+@media (max-width:767px) {
+  .model form input[type="text"] {
+    width: 230px;
+  }
+}
+.model form input[type="button"]{
+  width: 100px;
+}
+
+.welcome {
+  margin-top: 20px;
+  font-size: 25px;
+  text-align: center;
+  padding: 0 35px 0;
+}
+
+.toAppend {
+  color: #00539cff;
+  font-weight: bold;
+}
+/* End Popup */
+
+
+/* Start Counters */
+.counters{
+  margin-top: 20px;
+  display: flex;
+  direction: rtl;
+  justify-content: space-around;
+}
+/* End counters */
+
+
+/* Start clearbtn */
+.clearBtn {
+  margin-top: 30px;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: 'Tajawal', sans-serif;
+  transition: 0.3s;
+}
+
+.clearBtn:hover {
+  background-color: rgba(255, 0, 0, 0.468);
+}
+/* End clearbtn */
